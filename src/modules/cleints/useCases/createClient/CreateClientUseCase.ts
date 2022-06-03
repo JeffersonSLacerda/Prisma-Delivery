@@ -6,5 +6,7 @@ interface ICreateClient {
 }
 
 export class CreateClientUseCase {
-  async execute({ username, password }: ICreateClient) {}
+  async execute({ username, password }: ICreateClient) {
+    const cleintExists = await prisma.
+  }
 }
