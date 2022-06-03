@@ -1,0 +1,47 @@
+services:
+  api:
+    build: .
+    container_name: entregas-backend
+    depends_on:
+      - db
+    ports:
+      - 3333:3333
+      - 5555:5555
+    volumes:
+      - .:/home/node/api
+      - /home/node/api/node_modules
+
+  db:
+    image: postgres:13
+    container_name: entregas-postgres
+    tty: true
+    stdin_open: true
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PORT=5432
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  agent:
+    image: portainer/agent
+    container_name: estregas-agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: entregas-portainer
+    command: -H tcp://agent:9001 --tlsskipverify
+    ports:
+      - "9000:9000"
+    volumes:
+      - portainer_data:/data
+
+volumes:
+  postgres_data:
+  portainer_data:
