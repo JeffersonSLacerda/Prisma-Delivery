@@ -1,7 +1,7 @@
 services:
   api:
     build: .
-    container_name: entregas-backend
+    container_name: Delivery-backend
     depends_on:
       - db
     ports:
@@ -13,7 +13,7 @@ services:
 
   db:
     image: postgres:13
-    container_name: entregas-postgres
+    container_name: Delivery-postgres
     tty: true
     stdin_open: true
     environment:
@@ -28,14 +28,14 @@ services:
 
   agent:
     image: portainer/agent
-    container_name: estregas-agent
+    container_name: Delivery-agent
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
 
   portainer:
     image: portainer/portainer-ce:latest
-    container_name: entregas-portainer
+    container_name: Delivery-portainer
     command: -H tcp://agent:9001 --tlsskipverify
     ports:
       - "9000:9000"
